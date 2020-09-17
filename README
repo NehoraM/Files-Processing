@@ -1,0 +1,89 @@
+nehora.moshe
+
+================
+File Description
+================
+
+DirectoryProcessor.java - the class of the main function
+CommandParsing.java - the class that parsing the command file
+SectionParsing.java - the class that parsing the sections
+
+Sort.java - class that sorting files by some comparator
+
+AbsCompare.java - a comparator based upon the file names
+OrderFactory.java - a singleton factory that creates comparators
+ReverseCompare.java - a class to reverse the effect of the comparator
+SizeCompare.java - a comparator to compare based on size
+TypeCompare.java - a comparator to compare by type
+CompareFactory.java - class that create comparator
+
+TypeOne.java - a class for throwing a type one exception
+
+TypeTwo.java - an abstract class for all type two exceptions
+
+ContainsFilter.java - a filter to check if the file name contains a string
+FileFilter.java - a filter to check if the file name equals the filter
+PrefixFilter.java - a filter to check if the file starts with a certain value
+SuffixFilter.java - a filter to check if the file ends with a certain value
+
+ExecutableFilter.java - a filter to check if the file is executable
+HiddenFilter.java - a filter to check if the file is hidden
+PermissionsFilter.java - an abstract class for any filter that deals with permissions
+WritableFilter.java - a filter to check if the file is writable
+
+BetweenFilter.java - a filter to check if the size of a file is between certain values
+GreaterThanFilter.java - a filter to check if the file size is greater than a certain size
+SizeFilter.java - an interface for filters that deal with file size
+SmallerThanFilter.java - a filter that filters files less than a certain size
+
+AllFilter.java - a class of a filter for everything
+FilterFactory.java - a singleton class factory to produce filters
+ReverseFilter.java - a filter to do the opposite affect of the filter
+
+
+=============================
+=          Design           =
+=============================
+
+    exceptions - all the exceptions in there own package, so if I want to change them its easy.
+    filter -  filters sit in there own package, so its easy to change them too, and a reversing type to reverse
+    the effect of the filter
+    Orders - orders sit in there own package,so its easy to change them too, and a reversing type to reverse
+    the effect of the filter
+    DirectoryProcsesor - a main class to receive the arguments and run the whole function
+    CommandParsing - this class parse the command file, its divide the command file to sections
+    SectionsParsing- this class parse each section.
+
+=============================
+=  Implementation details   =
+=============================
+    exceptions - all exceptions inherit from the exception class but are split into two categories
+    typeOne and typeTwo each one representing a different type of error
+    filters - all filters are children of the Filter<Path> interface putting them in the decorator design
+    while creating a certain filter for the type of sorting all of the inheriting classes decorate the
+    parent class the only difference of filters is the size filters since the implementations are so
+    different they implement an interface instead. there is a factory of a singleton type to create a filter
+    orders - all inherit from the comparator<Path> using the decorator design to add on and implement there
+    own function of compare there is a reverse compare to reverse the effect of a certain compare and a
+    factory of a singleton type exists to create factories
+    DirectoryProccesor - creates instances of the of the objects to parse and then filter out the data
+    CommandParsing - this class will read file lines and parse them into sections so we can filter the files
+    SectionsParsing - this class receives data about the certain sub section we are dealing with
+    giving us an object that is easy to work with when we need to actually analyze a certain section
+    this object comes very useful for finding simple information about the object
+
+=============================
+=    Answers to questions   =
+=============================
+
+
+Describe the exceptions hierarchy you used in order to handle errors in the program. Explain
+the considerations that made you choose that specific design.
+the hierarchy i choose to deal with my exceptions was that I have two classes- TypeOne and TypeTwo. TypeTwo extends
+Exception and stop the program from running. type one exceptions were handled in the filters and orders class
+type one error would know how to take care of it and continue running
+
+How did you sort your matched files? Did you use a data structure for this purpose? If so,
+what data structure and why?
+I use heap-sort. I think it very good way to sort- works at nlog(n) at the worst case with constant space.
+first, I filter the files and then, sort them.
